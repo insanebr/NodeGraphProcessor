@@ -1411,7 +1411,7 @@ namespace GraphProcessor
 
 			graph.onExposedParameterListChanged -= OnExposedParameterListChanged;
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
-			graph.onGraphChanges -= GraphChangesCallback;
+			//graph.onGraphChanges -= GraphChangesCallback;
         }
 
         #endregion
