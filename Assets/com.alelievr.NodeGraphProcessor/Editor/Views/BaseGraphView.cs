@@ -399,15 +399,15 @@ namespace GraphProcessor
 			return changes;
 		}
 
-		void GraphChangesCallback(GraphChanges changes)
-		{
-			if (changes.removedEdge != null)
-			{
-				var edge = edgeViews.FirstOrDefault(e => e.serializedEdge == changes.removedEdge);
+		//void GraphChangesCallback(GraphChanges changes)
+		//{
+		//	if (changes.removedEdge != null)
+		//	{
+		//		var edge = edgeViews.FirstOrDefault(e => e.serializedEdge == changes.removedEdge);
 
-				DisconnectView(edge);
-			}
-		}
+		//		DisconnectView(edge);
+		//	}
+		//}
 
 		void ViewTransformChangedCallback(GraphView view)
 		{
@@ -826,7 +826,7 @@ namespace GraphProcessor
 		{
 			graph.onExposedParameterListChanged += OnExposedParameterListChanged;
 			graph.onExposedParameterModified += (s) => onExposedParameterModified?.Invoke(s);
-			graph.onGraphChanges += GraphChangesCallback;
+			//graph.onGraphChanges += GraphChangesCallback;
 			viewTransform.position = graph.position;
 			viewTransform.scale = graph.scale;
 			nodeCreationRequest = (c) => SearchWindow.Open(new SearchWindowContext(c.screenMousePosition), createNodeMenu);
