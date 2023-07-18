@@ -109,7 +109,8 @@ namespace GraphProcessor
 
             var titlePaths = new HashSet< string >();
 
-            var nodePaths = NodeProvider.GetNodeMenuEntries(graphView.graph);
+			//var nodePaths = NodeProvider.GetNodeMenuEntries(graphView.graph);
+			var nodePaths = graphView.FilterCreateNodeMenuEntries();
 
             tree.Add(new SearchTreeEntry(new GUIContent($"Relay", icon))
             {
