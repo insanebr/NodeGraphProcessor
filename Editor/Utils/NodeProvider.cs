@@ -233,7 +233,7 @@ namespace GraphProcessor
 			}
 		}
 
-		static MonoScript FindScriptFromClassName(string className)
+		public static MonoScript FindScriptFromClassName(string className)
 		{
 			var scriptGUIDs = AssetDatabase.FindAssets($"t:script {className}");
 

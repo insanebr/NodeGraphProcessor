@@ -549,16 +549,26 @@ namespace GraphProcessor
 			}
 		}
 
-		public void OpenNodeViewScript()
+		public void OpenNodeScript()
 		{
-			var script = NodeProvider.GetNodeViewScript(GetType());
+			var script = NodeProvider.GetNodeScript(nodeTarget.GetType());
+
+			// TODO: Hack due to the fact that we're not using the BaseNode and BaseNodeView
+			// abstract classes correctly. In the future we should check if we should converte all of
+			// out "View" classes to derive from "BaseNodeView" instead of "BaseNode".
+			if (script.name.EndsWith("View"))
+			{
+				var typeName = script.name.Substring(0, script.name.Length - 4);
+				script = NodeProvider.FindScriptFromClassName(typeName);
+			}
 
 			if (script != null)
 				AssetDatabase.OpenAsset(script.GetInstanceID(), 0, 0);
 		}
 
-		public void OpenNodeScript()
+		public void OpenNodeViewScript()
 		{
+			// Used to be GetNodeViewScript(). See TODO above for more info.
 			var script = NodeProvider.GetNodeScript(nodeTarget.GetType());
 
 			if (script != null)
@@ -1051,14 +1061,26 @@ namespace GraphProcessor
 
 		Status OpenNodeScriptStatus(DropdownMenuAction action)
 		{
-			if (NodeProvider.GetNodeScript(nodeTarget.GetType()) != null)
+			var nodeType = NodeProvider.GetNodeScript(nodeTarget.GetType());
+
+			// TODO: Hack due to the fact that we're not using the BaseNode and BaseNodeView
+			// abstract classes correctly. In the future we should check if we should converte all of
+			// out "View" classes to derive from "BaseNodeView" instead of "BaseNode".
+			if (nodeType.name.EndsWith("View"))
+			{
+				var typeName = nodeType.name.Substring(0, nodeType.name.Length - 4);
+				nodeType = NodeProvider.FindScriptFromClassName(typeName);
+			}
+
+			if (nodeType != null)
 				return Status.Normal;
 			return Status.Disabled;
 		}
 
 		Status OpenNodeViewScriptStatus(DropdownMenuAction action)
 		{
-			if (NodeProvider.GetNodeViewScript(GetType()) != null)
+			// Used to be GetNodeViewScript(). See TODO above for more info.
+			if (NodeProvider.GetNodeScript(nodeTarget.GetType()) != null)
 				return Status.Normal;
 			return Status.Disabled;
 		}
