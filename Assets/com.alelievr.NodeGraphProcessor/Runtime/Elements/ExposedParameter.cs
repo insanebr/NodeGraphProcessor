@@ -89,7 +89,7 @@ namespace GraphProcessor
 #pragma warning restore CS0618
             if (oldType == null || !exposedParameterTypeCache.TryGetValue(oldType, out var newParamType))
                 return null;
-            
+
             var newParam = Activator.CreateInstance(newParamType) as ExposedParameter;
 
             newParam.guid = guid;
@@ -99,7 +99,7 @@ namespace GraphProcessor
             newParam.settings.guid = guid;
 
             return newParam;
-     
+
         }
 
         public static bool operator ==(ExposedParameter param1, ExposedParameter param2)
@@ -173,21 +173,13 @@ namespace GraphProcessor
     [System.Serializable]
     public class FloatParameter : ExposedParameter
     {
-        public enum FloatMode
-        {
-            Default,
-            Slider,
-        }
-
         [Serializable]
         public class FloatSettings : Settings
         {
-            public FloatMode mode;
-            public float min = 0;
-            public float max = 1;
+            public float floatValue;
 
             public override bool Equals(Settings param)
-                => base.Equals(param) && mode == ((FloatSettings)param).mode && min == ((FloatSettings)param).min && max == ((FloatSettings)param).max;
+                => base.Equals(param) && floatValue == ((FloatSettings)param).floatValue;
         }
 
         [SerializeField] float val;
@@ -241,21 +233,13 @@ namespace GraphProcessor
     [System.Serializable]
     public class IntParameter : ExposedParameter
     {
-        public enum IntMode
-        {
-            Default,
-            Slider,
-        }
-
         [Serializable]
         public class IntSettings : Settings
         {
-            public IntMode mode;
-            public int min = 0;
-            public int max = 10;
+            public int intValue;
 
             public override bool Equals(Settings param)
-                => base.Equals(param) && mode == ((IntSettings)param).mode && min == ((IntSettings)param).min && max == ((IntSettings)param).max;
+                => base.Equals(param) && intValue == ((IntSettings)param).intValue;
         }
 
         [SerializeField] int val;
@@ -291,18 +275,38 @@ namespace GraphProcessor
     [System.Serializable]
     public class LongParameter : ExposedParameter
     {
+        [Serializable]
+        public class LongSettings : Settings
+        {
+            public long longValue;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && longValue == ((LongSettings)param).longValue;
+        }
+
         [SerializeField] long val;
 
         public override object value { get => val; set => val = (long)value; }
+        protected override Settings CreateSettings() => new LongSettings();
     }
 
     [System.Serializable]
     public class StringParameter : ExposedParameter
     {
+        [Serializable]
+        public class StringSettings : Settings
+        {
+            public string stringValue;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && stringValue == ((StringSettings)param).stringValue;
+        }
+
         [SerializeField] string val;
 
         public override object value { get => val; set => val = (string)value; }
         public override Type GetValueType() => typeof(String);
+        protected override Settings CreateSettings() => new StringSettings();
     }
 
     [System.Serializable]
@@ -384,9 +388,19 @@ namespace GraphProcessor
     [System.Serializable]
     public class BoolParameter : ExposedParameter
     {
+        [Serializable]
+        public class BoolSettings : Settings
+        {
+            public bool boolValue;
+
+            public override bool Equals(Settings param)
+                => base.Equals(param) && boolValue == ((BoolSettings)param).boolValue;
+        }
+
         [SerializeField] bool val;
 
         public override object value { get => val; set => val = (bool)value; }
+        protected override Settings CreateSettings() => new BoolSettings();
     }
 
     [System.Serializable]
